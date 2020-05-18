@@ -81,7 +81,7 @@ PNG createSpotlight(PNG image, int centerX, int centerY)
       // the pixel since you're directly changing the memory of the image.
       double distance = sqrt(pow(abs(centerX - (int)x), 2) + pow(abs(centerY - (int)y), 2));
       double l_reduction = min((0.5 / 100) * distance, 0.8);
-      pixel.l = pixel.l * (1-l_reduction);
+      pixel.l = pixel.l * (1 - l_reduction);
     }
   }
 
@@ -154,6 +154,22 @@ PNG illinify(PNG image)
 */
 PNG watermark(PNG firstImage, PNG secondImage)
 {
+  for (unsigned x = 0; x < firstImage.width(); x++)
+  {
+    for (unsigned y = 0; y < firstImage.height(); y++)
+    {
+      HSLAPixel &pixel = firstImage.getPixel(x, y);
+      HSLAPixel &stencil_pixel = secondImage.getPixel(x, y);
+
+      // `pixel` is a reference to the memory stored inside of the PNG `image`,
+      // which means you're changing the image directly. No need to `set`
+      // the pixel since you're directly changing the memory of the image.
+      if (stencil_pixel.l == 1.0)
+      {
+        pixel.l = min(pixel.l + 0.2, 1.0);
+      }
+    }
+  }
 
   return firstImage;
 }
