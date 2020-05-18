@@ -70,6 +70,21 @@ PNG grayscale(PNG image)
 PNG createSpotlight(PNG image, int centerX, int centerY)
 {
 
+  for (unsigned x = 0; x < image.width(); x++)
+  {
+    for (unsigned y = 0; y < image.height(); y++)
+    {
+      HSLAPixel &pixel = image.getPixel(x, y);
+
+      // `pixel` is a reference to the memory stored inside of the PNG `image`,
+      // which means you're changing the image directly. No need to `set`
+      // the pixel since you're directly changing the memory of the image.
+      double distance = sqrt(pow(abs(centerX - (int)x), 2) + pow(abs(centerY - (int)y), 2));
+      double l_reduction = min((0.5 / 100) * distance, 0.8);
+      pixel.l = pixel.l * (1-l_reduction);
+    }
+  }
+
   return image;
 }
 
