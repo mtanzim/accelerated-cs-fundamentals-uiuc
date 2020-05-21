@@ -79,7 +79,8 @@
  ********************************************************************/
 
 template <typename T>
-void LinkedList<T>::insertOrdered(const T& newData) {
+void LinkedList<T>::insertOrdered(const T &newData)
+{
 
   // -----------------------------------------------------------
   // TODO: Your code here!
@@ -87,12 +88,48 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   // Please implement this function according to the description
   // above and in the instructions PDF.
 
+  if (this->empty())
+  {
+    this->pushBack(newData);
+    return;
+  }
+
+  Node *cur = head_;
+  while (cur->next && newData > cur->data)
+  {
+    cur = cur->next;
+  }
+
+  // if need to insert at the beginning
+  if (cur == head_)
+  {
+    this->pushFront(newData);
+    return;
+  }
+
+  // reached end of list and new element is bigger; insert at back
+  if (cur == tail_ && newData > cur->data)
+  {
+    this->pushBack(newData);
+    return;
+  }
+
+  // regular case: insert somewhere in the middle
+  Node *oldPrev = cur->prev;
+  Node *newNode = new Node(newData);
+  cur->prev = newNode;
+  oldPrev->next = newNode;
+  newNode->next = cur;
+  newNode->prev = oldPrev;
+  size_++;
+  return;
+
   // Hints:
   // Make your new node on the heap and then find where it needs to
   // go in the list. A good way to do this is by considering special
   // base cases first, then walk the list from front to back and find
   // the earliest position where you should insert the new node.
-  
+
   // When you insert the node, make sure to update any and all pointers
   // between it and adjacent nodes accordingly (next and prev pointers).
   // You may also need to update the head_ and tail_ pointers in some
@@ -102,13 +139,13 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   // other provided code for this project!
 
   // More hints:
-  
+
   // First, practice your technique for traversing the list from front
   // to back. You can see examples of several ways to do this throughout
   // the provided code for this project. We recommend that you try using
   // a temporary pointer that you update to track your position as you
   // traverse from node to node.
-  
+
   // Consider all the cases that can happen when you're trying to insert
   // the new node. Is the list currently empty? Does the new node go
   // at the beginning? Does it go somewhere in the middle? Does it go
@@ -127,7 +164,6 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   // they don't handle the null pointer at the tail properly. Be careful
   // to update all next, prev, head_, and tail_ pointers as needed on your
   // new node or on those existing nodes that are adjacent to the new node.
-
 }
 
 /********************************************************************
@@ -203,7 +239,8 @@ void LinkedList<T>::insertOrdered(const T& newData) {
  ********************************************************************/
 
 template <typename T>
-LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
+LinkedList<T> LinkedList<T>::merge(const LinkedList<T> &other) const
+{
 
   // You can't edit the original instance of LinkedList that is calling
   // merge because the function is marked const, and the "other" input
@@ -217,7 +254,7 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   // So if this function was called as "A.merge(B)", then now, "left"
   // is a temporary copy of the "A" and "right" is a temporary copy
   // of the "B".
-  
+
   // We will also create an empty list called "merged" where we can build
   // the final result we want. This is what we will return at the end of
   // the function.
@@ -255,4 +292,3 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   // and an int.)
   return merged;
 }
-
