@@ -260,6 +260,34 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T> &other) const
   // the function.
   LinkedList<T> merged;
 
+  Node *l = left.getHeadPtr();
+  Node *r = right.getHeadPtr();
+
+  while (l && r)
+  {
+    if (l->data < r->data)
+    {
+      merged.pushBack(l->data);
+      l = l->next;
+    }
+    else
+    {
+      merged.pushBack(r->data);
+      r = r->next;
+    }
+  }
+
+  while (l)
+  {
+    merged.pushBack(l->data);
+    l = l->next;
+  }
+  while (r)
+  {
+    merged.pushBack(r->data);
+    r = r->next;
+  }
+
   // -----------------------------------------------------------
   // TODO: Your code here!
   // -----------------------------------------------------------
