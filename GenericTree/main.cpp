@@ -23,9 +23,9 @@ void exampleTree2();
 // and runs a few tests on the ones you implement in the exercises.
 int main() {
 
-  exampleTree1();
+  // exampleTree1();
 
-  exampleTree2();
+  // exampleTree2();
 
   treeFactoryTest();
 

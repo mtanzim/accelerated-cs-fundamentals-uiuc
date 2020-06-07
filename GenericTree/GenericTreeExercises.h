@@ -98,6 +98,15 @@ static void treeFactory(GenericTree<int>& tree) {
 
   // ...
 
+  tree.clear();
+  tree.createRoot(4);
+  auto rootNode = tree.getRootPtr();
+  auto leftL1 = rootNode->addChild(8);
+  rootNode->addChild(15);
+  auto leftL2 = leftL1->addChild(16);
+  leftL1->addChild(23);
+  leftL2->addChild(42);
+
 }
 
 // treeFactoryTest: This function demonstrates the execution of treeFactory
